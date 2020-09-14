@@ -1,11 +1,11 @@
-const express = require('express');
+const express = require('express');                // In the node-express/routes folder, create a Node module named promotionRouter.js that will implement the Express router for /promotions and /promotions/:promotionId
 const bodyParser = require('body-parser');
 const promotionRouter = express.Router();
 
 promotionRouter.use(bodyParser.json());
 
-promotionRouter.route('/')
-.all((req, res, next) => {
+promotionRouter.route('/')                         // Endpoints: Write a route() method on the router for each of the paths above, just as you did with the campsiteRouter...     
+.all((req, res, next) => {                         // chaining the .all(). .get(), .post(), .put(), and .delete() routing methods
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
@@ -23,6 +23,7 @@ promotionRouter.route('/')
 .delete((req, res) => {
     res.end('Deleting all promotions');
 });
+
 
 promotionRouter.route('/:promotionId')
 .all((req, res, next) => {

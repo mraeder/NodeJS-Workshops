@@ -23,13 +23,13 @@ campsiteRouter.route('/')
     res.end('Deleting all campsites');
 });
 
-campsiteRouter.route('/:campsiteId')
-.all((req, res, next) => {
+campsiteRouter.route('/:campsiteId')               // Add a new campsiteRouter.route() method, and as its argument, give it the path of '/:campsiteId'
+.all((req, res, next) => {                         // Chain an .all() method to the route() method you added above
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
 })
-.get( (req, res) => {
+.get( (req, res) => {                              // Chain .get(), .post(), .put(), and .delete() methods (endpoints?) to this route as well
     res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
 })
 .post((req, res) => {

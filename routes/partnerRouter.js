@@ -4,8 +4,8 @@ const partnerRouter = express.Router();
 
 partnerRouter.use(bodyParser.json());
 
-partnerRouter.route('/')
-.all((req, res, next) => {
+partnerRouter.route('/')             // Create a Node module named partnerRouter.js that will implement the Express router for /partners and /partners/:partnerId
+.all((req, res, next) => {           // Write a route() method on the router for each of the paths above, just as you did with the campsiteRouter, chaining the .all(). .get(), .post(), .put(), and .delete() routing methods
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();

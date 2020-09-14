@@ -2,8 +2,8 @@ const express = require('express');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const campsiteRouter = require('./routes/campsiteRouter');
-const promotionRouter = require('./routes/promotionRouter');
-const partnerRouter = require('./routes/partnerRouter');
+const promotionRouter = require('./routes/promotionRouter');     // Integrate the Node module you created above within your Express application code in server.js
+const partnerRouter = require('./routes/partnerRouter');         // Integrate the Node module you created above within your Express application code in server.js
 
 const hostname = 'localhost';
 const port = 3000;
