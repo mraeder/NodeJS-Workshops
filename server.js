@@ -12,7 +12,7 @@ const app = express();      // call the express function which returns express s
 app.use(morgan('dev'));     // insert morgan middleware by using morgan function, using argument 'dev'. This will configure morgan to log using dev version, which will print additional info to screen
 app.use(bodyParser.json());
 
-app.use('/campsites', campsiteRouter);    // route handler 
+app.use('/campsites', campsiteRouter);    // route handler to connect with each file 
 app.use('/promotions', promotionRouter);  // route handler
 app.use('/partners', partnerRouter);      // route handler
 
