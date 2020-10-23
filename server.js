@@ -1,6 +1,6 @@
 const express = require('express');  // indicate that we're using express (doesn't need filepath), Express is not core module but it's been installed in node modules 
 const morgan = require('morgan');    // bring in this middleware
-const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');    // bring in this middleware
 const campsiteRouter = require('./routes/campsiteRouter');
 const promotionRouter = require('./routes/promotionRouter');     // Integrate the Node module you created above within your Express application code in server.js
 const partnerRouter = require('./routes/partnerRouter');         // Integrate the Node module you created above within your Express application code in server.js
@@ -10,11 +10,48 @@ const port = 3000;              // step 3
 
 const app = express();      // call the express function which returns express server app which is available under var name app
 app.use(morgan('dev'));     // insert morgan middleware by using morgan function, using argument 'dev'. This will configure morgan to log using dev version, which will print additional info to screen
-app.use(bodyParser.json());
+app.use(bodyParser.json());  // parse JSON formatted data. When server receives requests with JSON formatted data in body, body parser mw will parse that data into properties of the request object so we can access that data more easily
+app.all('/campsites', (req, res, next) => {   // routing method catch-all for HTTP verbs. Set properties on response object that we'll use as default for routing methods on this path. Takes path as first param= /campsites. Any HTTP req will trigger this method. 2nd param= callback func w params (req, res, next)
+    res.statusCode = 200;  // set response code 
+    res.setHeader('Content-Type', 'text/plain');  // ksend back plain text in response body 
+    next();  // pass control of app routing to next relevant routing method after this one. Otherwise, it would just stop here and not go further
+});
 
-app.use('/campsites', campsiteRouter);    // route handler to connect with each file 
-app.use('/promotions', promotionRouter);  // route handler
-app.use('/partners', partnerRouter);      // route handler
+app.get('/campsites', (req, res) => {  // set up endpoint for get requests /campsites, will take a callback func (req, res), don't need to process any more routing methods after this one so I don't need next in there too
+    res.end('Will send all the campsites to you');  // response status code and headers are already set by app.all method, so we just need res.end to send msg body back to client
+});
+
+app.post('/campsites', (req, res) => {
+    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
+});
+
+app.put('/campsites', (req, res) => {
+    res.statusCode = 403;
+    res.end('PUT operation not supported on /campsites');
+});
+
+app.delete('/campsites', (req, res) => {
+    res.end('Deleting all campsites');
+});
+
+app.get('/campsites/:campsiteId', (req, res) => {
+    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
+});
+
+app.post('/campsites/:campsiteId', (req, res) => {
+    res.statusCode = 403;
+    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+});
+
+app.put('/campsites/:campsiteId', (req, res) => {
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
+    res.end(`Will update the campsite: ${req.body.name}
+        with description: ${req.body.description}`);
+});
+
+app.delete('/campsites/:campsiteId', (req, res) => {
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+});
 
 app.use(express.static(__dirname + '/public'));   // middleware function express.static. Argument __dirname + '/public'. __dirname refers to absolute path of current directory of the file it's in. This line is all we need to have express serve static files from the public folder
 
