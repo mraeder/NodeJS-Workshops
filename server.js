@@ -21,8 +21,8 @@ app.get('/campsites', (req, res) => {  // set up endpoint for get requests /camp
     res.end('Will send all the campsites to you');  // response status code and headers are already set by app.all method, so we just need res.end to send msg body back to client
 });
 
-app.post('/campsites', (req, res) => {
-    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);
+app.post('/campsites', (req, res) => {  // set up endpoint for post request /campsites, after Express server handles code inside callback for app.all, it'll move to next relevant routing method. If post request comes in App.all --> app.post, skipping app.get method
+    res.end(`Will add the campsite: ${req.body.name} with description: ${req.body.description}`);  // post request typically 
 });
 
 app.put('/campsites', (req, res) => {
