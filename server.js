@@ -1,7 +1,7 @@
 const express = require('express');  // indicate that we're using express (doesn't need filepath), Express is not core module but it's been installed in node modules 
 const morgan = require('morgan');    // bring in this middleware
 const bodyParser = require('body-parser');    // bring in this middleware
-const campsiteRouter = require('./routes/campsiteRouter');
+const campsiteRouter = require('./routes/campsiteRouter');   // require campsiteRouter
 const promotionRouter = require('./routes/promotionRouter');     // Integrate the Node module you created above within your Express application code in server.js
 const partnerRouter = require('./routes/partnerRouter');         // Integrate the Node module you created above within your Express application code in server.js
 
@@ -11,6 +11,9 @@ const port = 3000;              // step 3
 const app = express();      // call the express function which returns express server app which is available under var name app
 app.use(morgan('dev'));     // insert morgan middleware by using morgan function, using argument 'dev'. This will configure morgan to log using dev version, which will print additional info to screen
 app.use(bodyParser.json());  // parse JSON formatted data. When server receives requests with JSON formatted data in body, body parser mw will parse that data into properties of the request object so we can access that data more easily
+
+app.use('/campsites', campsiteRouter);  // provide route path for campsiteRouter here 
+
 app.all('/campsites', (req, res, next) => {   // routing method catch-all for HTTP verbs. Set properties on response object that we'll use as default for routing methods on this path. Takes path as first param= /campsites. Any HTTP req will trigger this method. 2nd param= callback func w params (req, res, next)
     res.statusCode = 200;  // set response code 
     res.setHeader('Content-Type', 'text/plain');  // send back plain text in response body 

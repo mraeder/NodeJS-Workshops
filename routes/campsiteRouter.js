@@ -1,10 +1,10 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const campsiteRouter = express.Router();
-campsiteRouter.use(bodyParser.json());
+const express = require('express');    // require express
+const bodyParser = require('body-parser');  // require body-parser 
+const campsiteRouter = express.Router();  // create a new express router by assigning it to a variable and using express.Router method
+campsiteRouter.use(bodyParser.json());  // attach bodyParser middleware. use method for attaching middleware
 
-campsiteRouter.route('/')
-.all((req, res, next) => {
+campsiteRouter.route('/')  // create route method. Single argument is a path, which is /
+.all((req, res, next) => {  // chain the all method to this route. Then callback function
     res.statusCode = 200;
     res.setHeader('Content-Type', 'text/plain');
     next();
@@ -45,4 +45,4 @@ campsiteRouter.route('/:campsiteId')               // Add a new campsiteRouter.r
     res.end(`Deleting campsite: ${req.params.campsiteId}`);
 });
 
-module.exports = campsiteRouter;
+module.exports = campsiteRouter;  // export it so it can be used elsewhere 
