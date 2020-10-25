@@ -13,7 +13,7 @@ app.use(morgan('dev'));     // insert morgan middleware by using morgan function
 app.use(bodyParser.json());  // parse JSON formatted data. When server receives requests with JSON formatted data in body, body parser mw will parse that data into properties of the request object so we can access that data more easily
 app.all('/campsites', (req, res, next) => {   // routing method catch-all for HTTP verbs. Set properties on response object that we'll use as default for routing methods on this path. Takes path as first param= /campsites. Any HTTP req will trigger this method. 2nd param= callback func w params (req, res, next)
     res.statusCode = 200;  // set response code 
-    res.setHeader('Content-Type', 'text/plain');  // ksend back plain text in response body 
+    res.setHeader('Content-Type', 'text/plain');  // send back plain text in response body 
     next();  // pass control of app routing to next relevant routing method after this one. Otherwise, it would just stop here and not go further
 });
 
@@ -26,31 +26,31 @@ app.post('/campsites', (req, res) => {  // set up endpoint for post request /cam
 });
 
 app.put('/campsites', (req, res) => {
-    res.statusCode = 403;
-    res.end('PUT operation not supported on /campsites');
+    res.statusCode = 403;  // reject the request to this endpoint, operation is not supported 
+    res.end('PUT operation not supported on /campsites');  // this is the response at this endpoint
 });
 
-app.delete('/campsites', (req, res) => {
-    res.end('Deleting all campsites');
+app.delete('/campsites', (req, res) => { 
+    res.end('Deleting all campsites');   // return a response. This is a dangerous operation; don't allow ordinary users to do this, restrict to privileged users
 });
 
-app.get('/campsites/:campsiteId', (req, res) => {
-    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);
+app.get('/campsites/:campsiteId', (req, res) => {   // add a route param /:campsiteId. This will allow us to store whatever client sends as part of path after / as a route param named campsiteId. Use this same path for 4 methods below
+    res.end(`Will send details of the campsite: ${req.params.campsiteId} to you`);  // respond with this for now 
 });
 
-app.post('/campsites/:campsiteId', (req, res) => {
-    res.statusCode = 403;
-    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
+app.post('/campsites/:campsiteId', (req, res) => {  
+    res.statusCode = 403;   // not supporting post request on this path, operation not supported 
+    res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);   // message for client 
 });
 
 app.put('/campsites/:campsiteId', (req, res) => {
-    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);
-    res.end(`Will update the campsite: ${req.body.name}
+    res.write(`Updating the campsite: ${req.params.campsiteId}\n`);  // res.write method: updating campsite. /n causes a new line in the body. Then res.end message; use request.body.name
+    res.end(`Will update the campsite: ${req.body.name}  
         with description: ${req.body.description}`);
 });
 
 app.delete('/campsites/:campsiteId', (req, res) => {
-    res.end(`Deleting campsite: ${req.params.campsiteId}`);
+    res.end(`Deleting campsite: ${req.params.campsiteId}`);  // we're deleting specific campsite in this endpoint
 });
 
 app.use(express.static(__dirname + '/public'));   // middleware function express.static. Argument __dirname + '/public'. __dirname refers to absolute path of current directory of the file it's in. This line is all we need to have express serve static files from the public folder
